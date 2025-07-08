@@ -37,6 +37,15 @@ mkdir -p $PROJECT_DIR
 echo "📋 复制文件到项目目录..."
 cp -r * "$PROJECT_DIR/"
 
+# 清理可能存在的旧systemd服务
+if [ -f "/etc/systemd/system/ai-prediction.service" ]; then
+    echo "🧹 清理旧的systemd服务..."
+    systemctl stop ai-prediction 2>/dev/null || true
+    systemctl disable ai-prediction 2>/dev/null || true
+    rm -f /etc/systemd/system/ai-prediction.service
+    systemctl daemon-reload
+fi
+
 echo "✅ 所有必需文件检查完成"
 
 # 选择部署方式
@@ -64,30 +73,26 @@ case $choice in
             fi
         fi
         
-        # 创建systemd服务文件
-        cat > /etc/systemd/system/ai-prediction.service << EOF
-[Unit]
-Description=AI Prediction Website
-After=network.target
-
-[Service]
-Type=simple
-User=www-data
-WorkingDirectory=$PROJECT_DIR
-ExecStart=/usr/bin/python3 -m http.server 8080
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-        # 启动服务
-        systemctl daemon-reload
-        systemctl enable ai-prediction
-        systemctl start ai-prediction
+        # 停止可能存在的旧进程
+        pkill -f "python3 -m http.server 8080" 2>/dev/null || true
         
-        echo "✅ Python HTTP服务器部署完成"
-        echo "🌐 访问地址: http://$(hostname -I | awk '{print $1}'):8080"
+        # 切换到项目目录并启动HTTP服务器
+        cd "$PROJECT_DIR"
+        nohup python3 -m http.server 8080 > /var/log/ai-prediction.log 2>&1 &
+        
+        # 等待服务启动
+        sleep 2
+        
+        # 检查服务是否启动成功
+        if pgrep -f "python3 -m http.server 8080" > /dev/null; then
+            echo "✅ Python HTTP服务器部署完成"
+            echo "🌐 访问地址: http://47.239.168.239:8080"
+            echo "📋 进程ID: $(pgrep -f 'python3 -m http.server 8080')"
+            echo "📄 日志文件: /var/log/ai-prediction.log"
+        else
+            echo "❌ 服务启动失败，请检查日志: /var/log/ai-prediction.log"
+            exit 1
+        fi
         ;;
         
     2)
@@ -164,7 +169,7 @@ EOF
         systemctl restart nginx
         
         echo "✅ Nginx部署完成"
-        echo "🌐 访问地址: http://$(hostname -I | awk '{print $1}')/"
+        echo "🌐 访问地址: http://47.239.168.239/"
         ;;
         
     3)
@@ -189,18 +194,19 @@ echo "📂 项目目录: $PROJECT_DIR"
 echo "🔧 如需修改，请编辑目录中的文件"
 
 # 显示服务状态
-if systemctl is-active --quiet ai-prediction 2>/dev/null; then
-    echo "🟢 Python服务状态: $(systemctl is-active ai-prediction)"
+if pgrep -f "python3 -m http.server 8080" > /dev/null; then
+    echo "🟢 Python服务状态: 运行中 (PID: $(pgrep -f 'python3 -m http.server 8080'))"
 elif systemctl is-active --quiet nginx 2>/dev/null; then
     echo "🟢 Nginx服务状态: $(systemctl is-active nginx)"
 fi
 
 echo ""
 echo "📋 常用命令:"
-if systemctl is-active --quiet ai-prediction 2>/dev/null; then
-    echo "  查看日志: journalctl -u ai-prediction -f"
-    echo "  重启服务: systemctl restart ai-prediction"
-    echo "  停止服务: systemctl stop ai-prediction"
+if pgrep -f "python3 -m http.server 8080" > /dev/null; then
+    echo "  查看日志: tail -f /var/log/ai-prediction.log"
+    echo "  重启服务: pkill -f 'python3 -m http.server 8080' && cd /var/www/ai-prediction && nohup python3 -m http.server 8080 > /var/log/ai-prediction.log 2>&1 &"
+    echo "  停止服务: pkill -f 'python3 -m http.server 8080'"
+    echo "  查看进程: ps aux | grep 'python3 -m http.server 8080'"
 elif systemctl is-active --quiet nginx 2>/dev/null; then
     echo "  查看日志: journalctl -u nginx -f"
     echo "  重启服务: systemctl restart nginx"
