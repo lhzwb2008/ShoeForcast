@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱走走 - AI销量预测分析平台</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shoe-prints"></i>
+                <span>爱走走 AI预测平台</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#overview" class="nav-link">概览</a>
+                <a href="#predictions" class="nav-link">AI预测</a>
+                <a href="#analytics" class="nav-link">数据分析</a>
+                <a href="#details" class="nav-link">详细数据</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <!-- 概览部分 -->
+        <section id="overview" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>销量预测概览</h1>
+                    <p>基于AI算法的鞋类销量智能预测分析</p>
+                </div>
+                
+                <!-- 关键指标卡片 -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="total-records">1,980</h3>
+                            <p>总记录数</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="total-stores">66</h3>
+                            <p>门店数量</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="actual-sales">365</h3>
+                            <p>实际成交量</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="predicted-sales">837.87</h3>
+                            <p>AI预测总量</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI预测部分 -->
+        <section id="predictions" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>AI预测能力展示</h2>
+                    <p>智能算法基于多维度因素进行销量预测</p>
+                </div>
+                
+                <div class="prediction-grid">
+                    <!-- 预测准确性分析 -->
+                    <div class="prediction-card">
+                        <h3><i class="fas fa-bullseye"></i> 预测准确性分析</h3>
+                        <div class="prediction-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">高准确度预测 (≥80%)</span>
+                                <span class="stat-value high-accuracy" id="high-accuracy-count">-</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">中等准确度 (60-80%)</span>
+                                <span class="stat-value medium-accuracy" id="medium-accuracy-count">-</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">低准确度 (<60%)</span>
+                                <span class="stat-value low-accuracy" id="low-accuracy-count">-</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">平均准确度</span>
+                                <span class="stat-value" id="avg-accuracy">-</span>
+                            </div>
+                        </div>
+                        <div class="prediction-insight">
+                            <p id="accuracy-insight">AI预测准确性分析中...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 预测vs实际对比 -->
+                    <div class="prediction-card">
+                        <h3><i class="fas fa-chart-line"></i> 预测vs实际对比</h3>
+                        <div class="comparison-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">实际总销量</span>
+                                <span class="stat-value" id="actual-total">-</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">预测总销量</span>
+                                <span class="stat-value" id="predicted-total">-</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">预测覆盖率</span>
+                                <span class="stat-value" id="prediction-coverage">-</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">预测偏差</span>
+                                <span class="stat-value" id="prediction-bias">-</span>
+                            </div>
+                        </div>
+                        <div class="prediction-insight">
+                            <p id="comparison-insight">预测对比分析中...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 预测算法说明 -->
+                <div class="algorithm-info">
+                    <h3>AI预测算法特点</h3>
+                    <div class="algorithm-features">
+                        <div class="feature">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h4>时间因素</h4>
+                            <p>考虑工作日vs周末的销量差异</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h4>门店类型</h4>
+                            <p>万达、吾悦等大型商场权重更高</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-tag"></i>
+                            <h4>价格影响</h4>
+                            <p>根据商品价格调整预测权重</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-history"></i>
+                            <h4>历史数据</h4>
+                            <p>基于实际销量进行智能学习</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据分析部分 -->
+        <section id="analytics" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>数据分析</h2>
+                    <p>深度分析销量趋势和门店表现</p>
+                </div>
+                
+                <!-- 筛选器 -->
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="dateFilter">日期筛选：</label>
+                        <select id="dateFilter">
+                            <option value="all">全部日期</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="storeFilter">门店筛选：</label>
+                        <select id="storeFilter">
+                            <option value="all">全部门店</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="salesFilter">成交量筛选：</label>
+                        <select id="salesFilter">
+                            <option value="all">全部</option>
+                            <option value="actual">仅实际成交</option>
+                            <option value="predicted">仅预测数据</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- AI分析区域 -->
+                <div class="ai-analysis-grid">
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-calendar-alt"></i> 时间维度分析</h3>
+                        <div class="analysis-content">
+                            <div class="analysis-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">峰值销量日期</span>
+                                    <span class="stat-value" id="peak-sales-date">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">平均日销量</span>
+                                    <span class="stat-value" id="avg-daily-sales">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">周末销量提升</span>
+                                    <span class="stat-value" id="weekend-boost">-</span>
+                                </div>
+                            </div>
+                            <div class="analysis-insight">
+                                <p id="time-insight">时间维度分析中...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-store"></i> 门店维度分析</h3>
+                        <div class="analysis-content">
+                            <div class="analysis-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">最佳表现门店</span>
+                                    <span class="stat-value" id="top-performing-store">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">万达门店平均销量</span>
+                                    <span class="stat-value" id="wanda-avg-sales">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">吾悦门店平均销量</span>
+                                    <span class="stat-value" id="wuyue-avg-sales">-</span>
+                                </div>
+                            </div>
+                            <div class="analysis-insight">
+                                <p id="store-insight">门店维度分析中...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-tag"></i> 价格维度分析</h3>
+                        <div class="analysis-content">
+                            <div class="analysis-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">最优价格区间</span>
+                                    <span class="stat-value" id="optimal-price-range">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">价格敏感度</span>
+                                    <span class="stat-value" id="price-sensitivity">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">高价位成交率</span>
+                                    <span class="stat-value" id="high-price-rate">-</span>
+                                </div>
+                            </div>
+                            <div class="analysis-insight">
+                                <p id="price-insight">价格维度分析中...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-robot"></i> AI模型洞察</h3>
+                        <div class="analysis-content">
+                            <div class="analysis-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">模型置信度</span>
+                                    <span class="stat-value" id="model-confidence">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">异常检测数量</span>
+                                    <span class="stat-value" id="anomaly-detection">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">预测稳定性</span>
+                                    <span class="stat-value" id="prediction-stability">-</span>
+                                </div>
+                            </div>
+                            <div class="analysis-insight">
+                                <p id="model-insight">AI模型洞察分析中...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 商业洞察 -->
+                <div class="business-insights">
+                    <h3><i class="fas fa-lightbulb"></i> 商业洞察与建议</h3>
+                    <div class="insights-grid">
+                        <div class="insight-card success">
+                            <i class="fas fa-arrow-up"></i>
+                            <div class="insight-content">
+                                <h4>增长机会</h4>
+                                <p id="growth-opportunity">分析中...</p>
+                            </div>
+                        </div>
+                        <div class="insight-card warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div class="insight-content">
+                                <h4>风险预警</h4>
+                                <p id="risk-warning">分析中...</p>
+                            </div>
+                        </div>
+                        <div class="insight-card info">
+                            <i class="fas fa-target"></i>
+                            <div class="insight-content">
+                                <h4>优化建议</h4>
+                                <p id="optimization-suggestion">分析中...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 详细数据部分 -->
+        <section id="details" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>详细数据</h2>
+                    <p>完整的销量数据和预测结果</p>
+                </div>
+                
+                <!-- 搜索和排序 -->
+                <div class="table-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="搜索门店名称...">
+                    </div>
+                    <div class="sort-controls">
+                        <label for="sortBy">排序：</label>
+                        <select id="sortBy">
+                            <option value="date">日期</option>
+                            <option value="store">门店</option>
+                            <option value="actual">实际成交量</option>
+                            <option value="predicted">预测成交量</option>
+                            <option value="price">价格</option>
+                        </select>
+                        <button id="sortOrder" class="sort-btn">
+                            <i class="fas fa-sort-amount-down"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 数据表格 -->
+                <div class="table-container">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>门店</th>
+                                <th>成交单价</th>
+                                <th>实际成交量</th>
+                                <th>预测成交量</th>
+                                <th>预测准确度</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- 数据将通过JavaScript动态填充 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="pagination">
+                    <button id="prevPage" class="page-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="pageInfo">第 1 页，共 1 页</span>
+                    <button id="nextPage" class="page-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 爱走走品牌 - AI销量预测分析平台</p>
+            <p>基于先进的机器学习算法，为您提供精准的销量预测服务</p>
+        </div>
+    </footer>
+
+    <!-- 加载脚本 -->
+    <script src="script.js"></script>
+</body>
+</html> 

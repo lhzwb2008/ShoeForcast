@@ -1,0 +1,17 @@
+{
+  "total_records": 1980,
+  "total_actual_sales": 368,
+  "total_predicted_sales": 837.87,
+  "actual_records": 325,
+  "predicted_records": 1652,
+  "unique_stores": 66,
+  "date_range": {
+    "start": "2025-06-01",
+    "end": "2025-06-30"
+  },
+  "avg_price": 289.31,
+  "price_range": {
+    "min": 109.5,
+    "max": 370.0
+  }
+}
