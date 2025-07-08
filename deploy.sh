@@ -14,21 +14,28 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# 创建项目目录
-PROJECT_DIR="/var/www/ai-prediction"
-echo "📁 创建项目目录: $PROJECT_DIR"
-mkdir -p $PROJECT_DIR
-cd $PROJECT_DIR
+# 获取当前目录（脚本所在目录）
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
 # 检查必需文件
 REQUIRED_FILES=("index.html" "styles.css" "script.js" "sales_data.json" "stats.json")
 for file in "${REQUIRED_FILES[@]}"; do
     if [ ! -f "$file" ]; then
         echo "❌ 缺少必需文件: $file"
-        echo "请确保所有文件都在当前目录中"
+        echo "请确保所有文件都在脚本所在目录中"
         exit 1
     fi
 done
+
+# 创建项目目录
+PROJECT_DIR="/var/www/ai-prediction"
+echo "📁 创建项目目录: $PROJECT_DIR"
+mkdir -p $PROJECT_DIR
+
+# 复制文件到项目目录
+echo "📋 复制文件到项目目录..."
+cp -r * "$PROJECT_DIR/"
 
 echo "✅ 所有必需文件检查完成"
 
